@@ -1,0 +1,13 @@
+Exercise 5:
+
+The first instruction that would break is ljmp $PROT_MODE_CSEG, $protcseg.
+
+Exercise 6:
+
+They are different because when the boot loader enters the kernel, the kernel is loaded from disk to memory starting at address 0x10000c. But when BIOS enters the boot loader  
+
+Exercise 7:
+
+The first instruction what would fail is jmp *%eax.
+
+

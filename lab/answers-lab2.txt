@@ -1,0 +1,19 @@
+1. Variable x has type uintptr_t.
+
+2. Entry    Base Virtual Address        Points to
+   977-1023     f4400000                kernel remapping
+   976          f4000000                Kernel remapping
+   961-975      f0400000                The end of physical memory starting at KERNBASE. Kernel remapping.
+   960          f0000000                KERNBASE, the start of virtual memory. Remapped physical memory
+   959          efc00000                End of Memory mapped I/O. Start of invalid memory
+   957          ef400000                Current page table
+   956          ef000000                UPAGES, the address of the pages structure
+   
+
+3. The user programs cannot read or write the kernel's memory because they do not have permission to access the page directory and page table entries. The U/K bit controls the permission.
+
+4. The maximum amount of physical memory is 256MB. This is because from KERNBASE to 2^32, the amount of physical memory is (0xffffffff - 0xf0000000) = 256 MB.
+
+5. We have 4MB overhead, including a page directory and 1024 page tables. 
+
+6. We transition to a higher address with the instruction jmp *%eax. We can continue executing at the old address because the address of the instruction is also mapped in the virtual memory low address space. The transition is necessary because all the memory will be interpreted as virtual memory.

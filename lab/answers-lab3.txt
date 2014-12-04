@@ -1,0 +1,11 @@
+1. If all exceptions/interrupts were delievered to the same handler, then we wouldn't be able to load different code segments in different cases.
+
+2. I had to add the disabled/reserved exceptions 9 and 15 into the idt. If softint invoked 14, it would be an incorrect behavior.
+
+3. General protection fault happens if the IDT entry for breakpoint exception has dpl = 0, which means the user program isn't allowed to invoke this interruption directly. But if the IDT entry has DPL = 3, then we will get breakpoint exception.
+
+4. The point is to prevent malicious user program from generating random exceptions. 
+
+Challenge problem description:
+
+I did the first challenge problem. I made an array containing all the handlers using the .data label. Now when trap.c wants to access the handler, it only needs to index into this array with the index being the exception number, and the start address of the handler will be fetched for the program to use.

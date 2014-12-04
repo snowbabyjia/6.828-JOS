@@ -1,0 +1,6 @@
+1. No. Because the IF bit for the file system environment is saved in its eflags register which is in its trap frame. As long as the IF bit doesn't get cleared out, it should always be there and whenever the FS environment is running, it has the I/O privilege.
+
+
+Challenge Problem
+
+I implemented mmap for JOS by creating a new system call, mmap() in lib/mmap.c, and calling it instead of map_segment() in spawn. 

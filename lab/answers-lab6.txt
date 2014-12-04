@@ -1,0 +1,7 @@
+1. If the transmit ring is full, return an error code "try again" and request the user to try again.
+2. If the receive queue is empty, return a "try again" failure message and request the user to try again.
+3. This is a cheesy webpage!
+4. about 15 hours
+
+Challenge:
+I added a new system call to read the mac address from EEPROM device. I followed the intel manual and used EERD register.

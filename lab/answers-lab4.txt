@@ -1,0 +1,12 @@
+1. The macro MPBOOTPHYS is to translate the load address to link address so that the code can run from the low 2 ^ 16 bytes of code. If this is omitted, then we cannot use our virtual mapping anymore. However in boot.S, the macro is not needed because we are using a direct mapping at KERNBASE.
+
+2. The CPUs cannot use one kernel stack because there is no way to ensure that only one CPU is executing in kernel mode at any given time. If all CPUs share the same kernel stack, when CPU0 has a process which triggers an interruption, and CPU1 also has a process that triggers an interruption, the two processes will push onto the same stack concurrently and the stack will contain mixed data. Then when the information is popped they are incorrect for each process.
+
+3. This is because each environment has the same mapping for addresses higher than ULIM. Therefore, even after environment switching, the popped trap frame still have the same physical mapping.
+
+4. The old environment's registers must be saved because when it becomes runnable again it can resume its process. This happens in trapentry.S.
+
+
+Challenge problem:
+
+I implemented a fixed priority scheduling policy, where the environment with a lower env_id always has a higher priority than one with a higher env_id. This scheduling policy is implemented in the new_sched_yield function in kern/sched.c. The user program forktree.c verifies that the highest-priority (i.e. lowest env_id) runnable environment always runs. (or if no env is runnable, and curenv is still running, run curenv again). 
